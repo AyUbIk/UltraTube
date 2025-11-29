@@ -3,95 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>UltraVideo — Отправить ссылку</title>
-  <meta name="description" content="Отправляй видео в Telegram одним кликом — современный адаптивный интерфейс">
-  <meta name="theme-color" content="#071024">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-  <!-- main styles -->
-  <link rel="stylesheet" href="ultratube.css">
+  <title>Отправить видео — UltraVideo</title>
+  <style>
+    :root{--bg:#071024;--card:rgba(255,255,255,0.03);--accent:#ff6a00}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:#fff}
+    .center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .box{max-width:720px;width:100%;background:var(--card);padding:22px;border-radius:12px;text-align:center}
+    h1{margin:0 0 8px 0;font-size:20px}
+    p{margin:0 0 16px 0;color:rgba(255,255,255,0.9)}
+    .row{display:flex;gap:8px;align-items:center;margin-top:12px}
+    input[type=url]{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    button{padding:10px 14px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer}
+    #status{margin-top:12px;font-weight:700;min-height:20px;color:#b7f5c6}
+    @media (max-width:520px){.row{flex-direction:column}button{width:100%}}
+  </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="shell" role="main">
+  <div class="center">
+    <div class="box" role="main">
+      <h1>Отправить видео админам</h1>
+      <p>Вставьте ссылку на видео. Админы канала увидят ссылку, отреагируют и выложат реакцию в Telegram‑канале.</p>
 
-      <section class="hero" aria-labelledby="hero-title">
-        <div>
-          <div class="logo" aria-hidden="true">
-            <div class="logo-badge" aria-hidden="true">U</div>
-            <div class="logo-text">UltraVideo — мгновенно в Telegram</div>
-          </div>
+      <div class="row">
+        <input id="videoInput" type="url" placeholder="https://youtube.com/watch?v=..." aria-label="Ссылка на видео">
+        <button id="sendQuick" aria-label="Отправить ссылку">Отправить (быстро)</button>
+      </div>
 
-          <h1 id="hero-title" class="headline">
-            <!-- editable big headline -->
-            <span id="headlineText" contenteditable="true" aria-label="Редактируемый заголовок">Напиши здесь свой большой заметный текст</span>
-          </h1>
-
-          <p class="sub">Дизайн уровня топовых платформ. Поддержка телефонов и десктопов. Отправляй ссылки прямо в бота — быстро и красиво.</p>
-
-          <div class="big-note" id="bigNote" contenteditable="true" aria-label="Большая заметка">
-           Отправьте ссылку на любое видео и админы канала посмторят его и снимут реакцию 
-          </div>
-        </div>
-
-        <div class="footer">
-          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
-            <div class="small">Готово к публикации: GitHub Pages / Netlify / Vercel</div>
-            <div class="small">Автор — <strong>Админы канала</strong></div>
-          </div>
-        </div>
-      </section>
-
-      <aside class="card" aria-labelledby="formTitle">
-        <div>
-          <label id="formTitle">Вставь ссылку на абсолютно любое видео и отправь</label>
-          <div class="input" style="margin-top:8px">
-            <input id="videoInput" type="url" inputmode="url" placeholder="https://youtube.com/watch?v=... или любая ссылка" aria-label="Ссылка на видео">
-            <button id="pasteBtn" class="btn btn-ghost" title="Вставить из буфера">Вставить</button>
-          </div>
-
-          <div class="actions">
-            <button id="sendSecure" class="btn btn-primary">Чеклист для админов (выдаст ошибку если вы не админ сайта)</button>
-            <button id="sendQuick" class="btn btn-ghost" title="Direct — небезопасно">Отправить (быстро)</button>
-          </div>
-
-          <div class="toggles">
-            <label style="display:flex;gap:8px;align-items:center"><input id="saveHeadline" type="checkbox"> Сохранить заголовок в браузере</label>
-            <div style="flex:1"></div>
-          </div>
-
-          <div id="status" class="status" aria-live="polite"></div>
-
-          <div class="meta">
-            <p>Режим "быстро" отправляет напрямую на Telegram API (открывает токен — небезопасно).</p>
-          </div>
-        </div>
-
-        <div style="margin-top:6px;color:var(--muted);font-size:13px">
-          <strong>Инструкции:</strong>
-          <ol style="padding-left:18px;margin:8px 0">
-            <li>Рекомендуется: развернуть серверless-функцию (пример внизу) и указать её URL в ultratube.js → CONFIG.CLIENT_API.</li>
-            <li>Если понимаете риски — можете временно вставить BOT_TOKEN и CHAT_ID в конфиг (ultratube.js), но на продакшене это опасно.</li>
-            <li>Опубликуйте сайт на GitHub Pages / Netlify / Vercel и прокси на Vercel/Netlify с переменными окружения BOT_TOKEN и CHAT_ID.</li>
-          </ol>
-        </div>
-
-        <div style="margin-top:8px;color:var(--muted);font-size:12px">Текущая клиентская конфигурация (без токена):</div>
-        <pre id="clientConf" style="background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:8px;margin-top:8px;font-size:13px">...</pre>
-
-      </aside>
-
+      <div id="status" aria-live="polite"></div>
     </div>
   </div>
 
-  <script src="ultratube.js"></script>
+  <script>
+    const sendBtn = document.getElementById('sendQuick');
+    const input = document.getElementById('videoInput');
+    const status = document.getElementById('status');
 
-  <!-- ================= SERVERLESS PROXY EXAMPLE (Node.js) =================
-    В index.html уже есть подробные пояснения внизу этого файла в старой версии.
-    Примеры serverless функции (Vercel / Netlify) — оставлены в репо.
-  -->
+    sendBtn.addEventListener('click', () => {
+      const url = (input.value || '').trim();
+      if (!url) {
+        status.textContent = 'Пожалуйста, вставьте ссылку на видео.';
+        status.style.color = '#ffb3b3';
+        input.focus();
+        return;
+      }
+      status.textContent = 'Открываю Telegram...';
+      status.style.color = '#fff';
+
+      const text = 'Видео для реакции: ' + url;
+      const share = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text);
+
+      // Открываем ссылку на пересылку в новом окне/вкладке
+      const opened = window.open(share, '_blank');
+      if (opened) {
+        status.textContent = 'Открылся Telegram — отправьте ссылку админам канала.';
+        status.style.color = '#b7f5c6';
+      } else {
+        status.textContent = 'Блокировка всплывающих окон. Разрешите их или скопируйте ссылку вручную: ' + share;
+        status.style.color = '#ffb3b3';
+      }
+    });
+
+    // Enter = отправить
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendBtn.click();
+    });
+  </script>
 </body>
 </html>
