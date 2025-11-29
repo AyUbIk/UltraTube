@@ -87,13 +87,10 @@ function setStatus(msg, type) {
   status.textContent = msg;
 }
 
-// validate simple URL (accepts http/https)
+// validate simple URL: allow any non-empty input (accept any link/scheme)
 function validateUrl(v) {
   if (!v) return false;
-  try {
-    const u = new URL(v);
-    return ['http:', 'https:'].includes(u.protocol);
-  } catch (e) { return false; }
+  return true;
 }
 
 async function requestWithTimeout(resource, options = {}) {
@@ -122,8 +119,7 @@ sendQuick.addEventListener('click', async () => {
     return;
   }
 
-  // Ask for confirmation because this mode exposes token on client
-  if (!confirm('Быстрый режим отправит сообщение напрямую с клиента (НЕБЕЗОПАСНО). Продолжить?')) return;
+  // Removed browser confirm() so quick mode will not show a confirmation popup.
 
   setStatus('Отправка (быстрый режим)...');
   setButtonsDisabled(true);
